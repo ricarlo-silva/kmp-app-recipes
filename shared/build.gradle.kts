@@ -50,6 +50,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             api(projects.core.designsystem)
             api(projects.core.network)
+            api(projects.feature.login)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
