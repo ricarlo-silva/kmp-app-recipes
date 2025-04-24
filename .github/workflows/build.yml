@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        platform: [ android, ios]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ matrix.platform }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      # Build Android APK
+      # - name: Grant execute permission for gradlew
+      #   run: chmod +x gradlew
+      - name: Build Android
+        if: matrix.platform == 'android'
+        run: ./gradlew :androidApp:assembleDebug
+
+      - name: Upload Android APK
+        if: matrix.platform == 'android'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+
+      # Build iOS Framework
+      - name: Build iOS
+        if: matrix.platform == 'ios'
+        run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
