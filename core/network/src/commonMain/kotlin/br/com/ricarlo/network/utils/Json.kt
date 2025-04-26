@@ -11,6 +11,8 @@ val json = Json {
 
 inline fun <reified T> T.toJson(): String? = runCatching {
     json.encodeToString(this)
+}.onFailure {
+    it.printStackTrace()
 }.getOrNull()
 
 inline fun <reified T> fromJson(json: String?): T? {

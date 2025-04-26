@@ -31,8 +31,6 @@ fun App() {
                 greetingText = withContext(Dispatchers.IO) {
                     runCatching {
                         Greeting().greeting().toJson()
-                    }.onFailure {
-                        it.printStackTrace()
                     }.getOrNull().orEmpty()
                 }
             }

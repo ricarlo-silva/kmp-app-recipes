@@ -48,11 +48,11 @@ object KtorHttpClient {
         install(Auth) {
             bearer {
                 loadTokens {
-                    // Load tokens from a local storage and return them as the 'BearerTokens' instance
+                    // TODO: Load tokens from a local storage and return them as the 'BearerTokens' instance
                     BearerTokens("abc123", "xyz111")
                 }
                 refreshTokens { // this: RefreshTokensParams
-                    // Refresh tokens and return them as the 'BearerTokens' instance
+                    // TODO: Refresh tokens and return them as the 'BearerTokens' instance
                     BearerTokens("def456", "xyz111")
                 }
             }
@@ -60,6 +60,7 @@ object KtorHttpClient {
 
         val customHeaderPlugin = createClientPlugin("CustomHeaderPlugin") {
             onRequest { request, _ ->
+                // TODO: Add custom headers to the request
                 request.headers.append("X-Custom-Header", "Default value")
             }
         }
