@@ -39,6 +39,7 @@ ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging", version = "7.0.7" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

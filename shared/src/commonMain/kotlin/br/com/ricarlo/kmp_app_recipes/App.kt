@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import br.com.ricarlo.designsystem.MyApplicationTheme
 import br.com.ricarlo.designsystem.system
 import br.com.ricarlo.network.Greeting
-import br.com.ricarlo.network.utils.logMessage
+import br.com.ricarlo.network.utils.logError
 import br.com.ricarlo.network.utils.toJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -33,7 +33,7 @@ fun App() {
                     runCatching {
                         Greeting().greeting().toJson()
                     }.onFailure {
-                        it.logMessage()
+                        it.logError()
                     }.getOrNull().orEmpty()
                 }
             }
