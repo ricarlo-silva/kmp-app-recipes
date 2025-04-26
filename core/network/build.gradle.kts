@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -21,13 +22,19 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
-
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.kotlinx.coroutines.core)
         }
         iosMain.dependencies {
-
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
