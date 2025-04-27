@@ -19,7 +19,7 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidLibrary") {
+        register("mavenPublish") {
             id = "recipes.convention.publish"
             implementationClass = "MavenPublishConventionPlugin"
         }
