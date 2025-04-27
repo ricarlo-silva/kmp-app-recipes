@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.recipes.convention.publish)
 }
 
 kotlin {
@@ -15,6 +16,7 @@ kotlin {
                 }
             }
         }
+        publishLibraryVariants("release")
     }
     iosX64()
     iosArm64()
@@ -26,11 +28,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.auth)
+            implementation(libs.bundles.ktor.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlin.logging)
         }
