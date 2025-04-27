@@ -14,6 +14,9 @@ jobs:
   publish:
     name: Publish
     runs-on: macOS-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -28,5 +31,4 @@ jobs:
       - name: Publish all publications to GitHub Packages repository
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
         env:
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
