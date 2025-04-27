@@ -1,0 +1,29 @@
+name: Main Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature/maven-publish
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Publish all publications to GitHub Packages repository
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository

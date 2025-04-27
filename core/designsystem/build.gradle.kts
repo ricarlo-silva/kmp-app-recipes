@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.recipes.convention.publish)
 }
 
 kotlin {
@@ -16,6 +17,7 @@ kotlin {
                 }
             }
         }
+        publishLibraryVariants("release")
     }
     iosX64()
     iosArm64()
