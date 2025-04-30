@@ -19,23 +19,25 @@ import kotlinx.serialization.json.Json
 object KtorHttpClient {
     fun httpClient(
         plugins: Array<HttpClientPlugin<Any, Any>> = emptyArray(),
-        tokenManager: TokenManager = TokenManager()
+        tokenManager: TokenManager = TokenManager(),
     ) = HttpClient {
         install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL
-//            filter { request ->
-//                request.url.host.contains("ktor.io")
-//            }
+            //            filter { request ->
+            //                request.url.host.contains("ktor.io")
+            //            }
             sanitizeHeader { header -> header == HttpHeaders.Authorization }
         }
         install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-                encodeDefaults = true
-            })
+            json(
+                Json {
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                    encodeDefaults = true
+                }
+            )
         }
         install(HttpTimeout) {
             requestTimeoutMillis = 10000
@@ -44,25 +46,22 @@ object KtorHttpClient {
         }
         install(Auth) {
             bearer {
-                loadTokens {
-                    BearerTokens(tokenManager.getToken(), tokenManager.getRefreshToken())
-                }
+                loadTokens { BearerTokens(tokenManager.getToken(), tokenManager.getRefreshToken()) }
                 refreshTokens {
                     BearerTokens(tokenManager.getToken(), tokenManager.getRefreshToken())
                 }
             }
         }
 
-        val customHeaderPlugin = createClientPlugin("CustomHeaderPlugin") {
-            onRequest { request, _ ->
-                // TODO: Add custom headers to the request
-                request.headers.append("X-Custom-Header", "Default value")
+        val customHeaderPlugin =
+            createClientPlugin("CustomHeaderPlugin") {
+                onRequest { request, _ ->
+                    // TODO: Add custom headers to the request
+                    request.headers.append("X-Custom-Header", "Default value")
+                }
             }
-        }
         install(customHeaderPlugin)
 
-        plugins.forEach { plugin ->
-            install(plugin)
-        }
+        plugins.forEach { plugin -> install(plugin) }
     }
 }

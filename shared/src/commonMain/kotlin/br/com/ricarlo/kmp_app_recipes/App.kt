@@ -29,19 +29,16 @@ fun App() {
         var greetingText by remember { mutableStateOf("Loading...") }
         LaunchedEffect(Unit) {
             launch {
-                greetingText = withContext(Dispatchers.IO) {
-                    runCatching {
-                        Greeting().greeting().toJson()
-                    }.onFailure {
-                        it.logError()
-                    }.getOrNull().orEmpty()
-                }
+                greetingText =
+                    withContext(Dispatchers.IO) {
+                        runCatching { Greeting().greeting().toJson() }
+                            .onFailure { it.logError() }
+                            .getOrNull()
+                            .orEmpty()
+                    }
             }
         }
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-        ) {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Text("Hello, ${getPlatform().name}!")
             Text("Hello, ${system()}!")
             Text(greetingText)

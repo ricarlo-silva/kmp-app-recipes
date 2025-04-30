@@ -9,10 +9,7 @@ class Greeting {
 
     suspend fun greeting(): List<FruitResponse> {
         // https://github.com/public-apis/public-apis?tab=readme-ov-file
-        return KtorHttpClient
-            .httpClient()
-            .get("https://www.fruityvice.com/api/fruit/all")
-            .body()
+        return KtorHttpClient.httpClient().get("https://www.fruityvice.com/api/fruit/all").body()
     }
 }
 
@@ -32,5 +29,5 @@ data class NutritionResponse(
     @SerialName("fat") val fat: Double,
     @SerialName("sugar") val sugar: Double,
     @SerialName("carbohydrates") val carbohydrates: Double,
-    @SerialName("protein") val protein: Double
+    @SerialName("protein") val protein: Double,
 )
