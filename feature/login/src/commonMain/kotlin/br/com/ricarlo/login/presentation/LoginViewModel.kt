@@ -55,10 +55,7 @@ data class LoginState(
     val username: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-) {
-    val isLoginButtonEnabled: Boolean
-        get() = username.isNotBlank() && password.isNotBlank()
-}
+)
 
 sealed class LoginAction {
     data class UsernameChanged(val username: String) : LoginAction()
