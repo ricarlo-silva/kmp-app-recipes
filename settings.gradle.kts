@@ -27,7 +27,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "kmp-app-recipes"
+rootProject.name = "cmp-app-recipes"
 include(":androidApp")
 include(":shared")
 include(":core:designsystem")

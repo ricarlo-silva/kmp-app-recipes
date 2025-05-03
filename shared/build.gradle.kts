@@ -61,7 +61,7 @@ kotlin {
 }
 
 android {
-    namespace = "br.com.ricarlo.kmp_app_recipes"
+    namespace = "br.com.ricarlo.cmp_app_recipes"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
