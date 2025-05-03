@@ -1,6 +1,6 @@
 package br.com.ricarlo.kmp_app_recipes.presentation
 
-import br.com.ricarlo.login.di.presentationModule
+import br.com.ricarlo.login.di.loginModules
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -10,7 +10,7 @@ fun initKoin(
     startKoin {
         config?.invoke(this)
         modules(
-            presentationModule,
+            loginModules,
         )
     }
 }
