@@ -1,4 +1,4 @@
-package br.com.ricarlo.kmp_app_recipes
+package br.com.ricarlo.cmp_app_recipes
 
 import androidx.compose.ui.window.ComposeUIViewController
 

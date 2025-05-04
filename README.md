@@ -14,7 +14,7 @@ Dive deeper into the world of Compose Multiplatform: [Compose Multiplatform Docu
 The project is thoughtfully organized to clearly separate shared logic from platform-specific implementations, ensuring maintainability and ease of navigation:
 
 ```
-kmpapprecipes/
+cmp-app-recipes/
 ├── androidApp/         # Android application source code and build configuration
 ├── iosApp/             # Xcode project and iOS application source code
 ├── shared/             # Core CMP module containing shared Kotlin code
@@ -59,14 +59,14 @@ Get started with the project by following these steps:
 2.  **Clone the Repository:**
 
     ```bash
-    git clone git@github.com:ricarlo-silva/kmp-app-recipes.git
-    cd kmpapprecipes
+    git clone git@github.com:ricarlo-silva/cmp-app-recipes.git
+    cd cmp-app-recipes
     ```
 
 3.  **Open in Android Studio:**
     * Launch Android Studio.
     * Select "Open an existing project."
-    * Browse to the `kmpapprecipes` directory and select it.
+    * Browse to the `cmp-app-recipes` directory and select it.
 
 4.  **Sync Project with Gradle Files:**
     * Once the project is open, Android Studio will prompt you to synchronize with the Gradle files. Click "Sync Now" or the Gradle sync icon (elephant with a green arrow) in the toolbar.

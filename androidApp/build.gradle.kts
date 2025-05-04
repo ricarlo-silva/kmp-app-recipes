@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "br.com.ricarlo.kmp_app_recipes.android"
+    namespace = "br.com.ricarlo.cmp_app_recipes.android"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        applicationId = "br.com.ricarlo.kmp_app_recipes.android"
+        applicationId = "br.com.ricarlo.cmp_app_recipes.android"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1

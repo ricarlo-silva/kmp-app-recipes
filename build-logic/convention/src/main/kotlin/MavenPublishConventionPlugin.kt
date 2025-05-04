@@ -20,7 +20,7 @@ class MavenPublishConventionPlugin : Plugin<Project> {
                     pom {
                         name.set("${project.name.capitalized()} - CMP library")
                         description.set("${project.name.capitalized()} - Compose Multiplatform library")
-                        url.set("https://github.com/ricarlo-silva/kmp-app-recipes")
+                        url.set("https://github.com/ricarlo-silva/cmp-app-recipes")
 
                         licenses {
                             license {
@@ -41,7 +41,7 @@ class MavenPublishConventionPlugin : Plugin<Project> {
                 repositories {
                     maven {
                         name = "GitHubPackages"
-                        url = uri("https://maven.pkg.github.com/ricarlo-silva/kmp-app-recipes")
+                        url = uri("https://maven.pkg.github.com/ricarlo-silva/cmp-app-recipes")
                         credentials {
                             username = System.getenv("GITHUB_ACTOR")
                             password = System.getenv("GITHUB_TOKEN")

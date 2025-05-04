@@ -6,7 +6,7 @@ We welcome and appreciate your contributions to the CMP App Recipes project! Whe
 
 There are several ways you can contribute to this project:
 
-* **🐛 Bug Reports:** If you encounter a bug or unexpected behavior, please open a detailed issue on our [GitHub issue tracker](https://github.com/ricarlo-silva/kmp-app-recipes/issues).
+* **🐛 Bug Reports:** If you encounter a bug or unexpected behavior, please open a detailed issue on our [GitHub issue tracker](https://github.com/ricarlo-silva/cmp-app-recipes/issues).
 * **💡 Feature Requests:** Have a great idea for a new feature or enhancement? Feel free to open an issue to discuss it with the community.
 * **🛠️ Pull Requests (PRs):** If you're ready to contribute code directly, submit a pull request with your well-tested changes.
 * **📚 Documentation:** Help us make the project more accessible by improving our documentation. Submit pull requests with corrections, clarifications, or new content.
@@ -21,8 +21,8 @@ Ready to jump in? Here's how:
 2.  **Clone Your Fork:** Clone your forked repository to your local development machine:
 
     ```bash
-    git clone git@github.com:ricarlo-silva/kmp-app-recipes.git
-    cd kmp-app-recipes
+    git clone git@github.com:ricarlo-silva/cmp-app-recipes.git
+    cd cmp-app-recipes
     ```
 
 3.  **Create a Branch:** Create a dedicated branch for your changes. This keeps your work organized and simplifies the pull request process:
