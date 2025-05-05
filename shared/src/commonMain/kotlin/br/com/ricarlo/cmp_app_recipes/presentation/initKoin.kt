@@ -1,4 +1,4 @@
-package br.com.ricarlo.kmp_app_recipes.presentation
+package br.com.ricarlo.cmp_app_recipes.presentation
 
 import br.com.ricarlo.login.di.loginModules
 import org.koin.core.context.startKoin

@@ -1,4 +1,4 @@
-package br.com.ricarlo.kmp_app_recipes.presentation
+package br.com.ricarlo.cmp_app_recipes.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -13,7 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import br.com.ricarlo.designsystem.system
-import br.com.ricarlo.kmp_app_recipes.getPlatform
+import br.com.ricarlo.cmp_app_recipes.getPlatform
 import br.com.ricarlo.network.Greeting
 import br.com.ricarlo.network.utils.logError
 import br.com.ricarlo.network.utils.toJson

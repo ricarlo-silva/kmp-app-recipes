@@ -1,4 +1,4 @@
-package br.com.ricarlo.kmp_app_recipes.presentation
+package br.com.ricarlo.cmp_app_recipes.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
