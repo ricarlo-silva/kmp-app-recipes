@@ -28,19 +28,15 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
-        androidInstrumentedTest.dependencies {
-            implementation(libs.androidx.junit)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(projects.core.common)
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.viewmodel)
+            api(libs.koin.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -49,7 +45,7 @@ kotlin {
 }
 
 android {
-    namespace = "br.com.ricarlo.login"
+    namespace = "br.com.ricarlo.common"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
