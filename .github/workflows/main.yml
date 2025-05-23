@@ -27,6 +27,14 @@ jobs:
           java-version: 17
           distribution: temurin
 
+      - name: Load Google Service file
+        env:
+          JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+        run: |
+          echo $JSON | base64 -di > androidApp/google-services.json
+          echo $PLIST | base64 -di > iosApp/iosApp/GoogleService-Info.plist
+
       - name: Publish all publications to GitHub Packages repository
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
         env:

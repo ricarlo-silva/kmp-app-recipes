@@ -16,3 +16,9 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+iosApp/Pods
+iosApp/iosApp/GoogleService-Info.plist
+iosApp/Podfile.lock
+
+androidApp/google-services.json
