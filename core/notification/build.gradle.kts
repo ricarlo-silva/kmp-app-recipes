@@ -23,13 +23,13 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
+            implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.messaging.ktx)
             implementation(libs.firebase.analytics.ktx)
             api(libs.accompanist.permissions)
         }
         commonMain.dependencies {
-
+            implementation(projects.core.common)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

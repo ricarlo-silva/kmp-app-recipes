@@ -6,6 +6,6 @@ import br.com.ricarlo.cmp_app_recipes.presentation.initKoin
 
 fun MainViewController() = ComposeUIViewController(
     configure = {
-        initKoin {  }
+//        initKoin {  }
     }
 ) { RecipesApp() }

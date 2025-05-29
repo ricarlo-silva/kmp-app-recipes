@@ -2,8 +2,12 @@ import FirebaseCore
 import FirebaseMessaging
 import SwiftUI
 import UserNotifications
+import shared
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    lazy var fcmHandler: IFcmHandler = injectLazy()()
+    
     let gcmMessageIDKey = "gcm.message_id"
 
     func application(
@@ -43,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
+        fcmHandler.onMessageReceived(remoteMessage: convertUserInfo(userInfo))
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -66,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
+        fcmHandler.onMessageReceived(remoteMessage: convertUserInfo(userInfo))
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -145,6 +151,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             print("Message ID: \(messageID)")
         }
         // [END_EXCLUDE]
+        
+        fcmHandler.onClickMessage(remoteMessage: convertUserInfo(userInfo))
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -152,6 +160,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
     }
+}
+
+func convertUserInfo(_ userInfo: [AnyHashable: Any]) -> [String : Any] {
+    var stringDict: [String: Any] = [:]
+    
+    for (key, value) in userInfo {
+        guard let stringKey = key as? String else { continue }
+        stringDict[stringKey] = value
+    }
+    
+    return stringDict
 }
 
 // [END ios_10_message_handling]
@@ -171,6 +190,7 @@ extension AppDelegate: MessagingDelegate {
         )
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
+        fcmHandler.onNewToken(token: String(describing: fcmToken))
     }
 
     // [END refresh_token]
@@ -178,8 +198,12 @@ extension AppDelegate: MessagingDelegate {
 
 @main
 struct iOSApp: App {
+    
+   init() {
+       InitKoinKt.doInitKoin()
+   }
 
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
         WindowGroup {

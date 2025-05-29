@@ -1,15 +1,17 @@
 package br.com.ricarlo.notification
 
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import br.com.ricarlo.notification.core.IFcmHandler
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService() {
+internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
 
-    private val fcmHandler = MyFcmHandler() // TODO koin
+    private val fcmHandler by inject<IFcmHandler>()
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -43,8 +45,7 @@ internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService() {
             description = getString(R.string.default_notification_channel_description)
         )
 
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(
             message.messageId.orEmpty().hashCode(),
             notificationBuilder.build()
