@@ -1,5 +1,12 @@
 package br.com.ricarlo.notification.di
 
-import org.koin.core.module.Module
+import br.com.ricarlo.notification.core.FcmHandler
+import br.com.ricarlo.notification.core.IFcmHandler
+import br.com.ricarlo.notification.data.remote.ApiNotification
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-expect val notificationModules: Module
+val notificationModules = module {
+    single<IFcmHandler> { FcmHandler(get()) }
+    singleOf(::ApiNotification)
+}
