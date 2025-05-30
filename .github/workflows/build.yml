@@ -6,12 +6,7 @@ on:
 jobs:
   setup-google-services:
     uses: ./.github/workflows/google-services.yml
-    with:
-      config-android-path: 'androidApp/google-services.json'
-      config-ios-path: 'iosApp/iosApp/GoogleService-Info.plist'
-    secrets:
-      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+    secrets: inherit
 
   build_android:
     name: Android - Test and Build

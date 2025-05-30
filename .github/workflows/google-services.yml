@@ -19,6 +19,7 @@ on:
 
 jobs:
   google-services:
+    name: Setup Google Services
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
