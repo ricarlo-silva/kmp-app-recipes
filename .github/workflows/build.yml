@@ -19,7 +19,7 @@ jobs:
           java-version: 17
           distribution: temurin
       
-      - uses: ./.github/workflows/google-services.yml
+      - uses: ./.github/workflows/google-services.yml@feature/notification
 #        secrets:
 #          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
