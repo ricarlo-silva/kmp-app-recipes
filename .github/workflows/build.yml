@@ -5,7 +5,7 @@ on:
 
 jobs:
   setup-google-services:
-    uses: ./.github/workflows/google-services.yml@feature/notification
+    uses: ./.github/workflows/google-services.yml
     with:
       config-android-path: 'androidApp/google-services.json'
       config-ios-path: 'iosApp/iosApp/GoogleService-Info.plist'
