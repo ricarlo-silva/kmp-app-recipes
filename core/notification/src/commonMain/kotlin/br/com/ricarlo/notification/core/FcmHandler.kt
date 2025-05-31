@@ -1,6 +1,6 @@
 package br.com.ricarlo.notification.core
 
-import br.com.ricarlo.notification.data.remote.ApiNotification
+import br.com.ricarlo.notification.data.remote.IApiNotification
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ interface IFcmHandler {
 }
 
 class FcmHandler(
-    private val apiNotification: ApiNotification
+    private val apiNotification: IApiNotification
 ) : IFcmHandler {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())

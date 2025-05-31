@@ -31,6 +31,7 @@ kotlin {
             api(libs.bundles.ktor.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlin.logging)
+            implementation(libs.koin.core)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
