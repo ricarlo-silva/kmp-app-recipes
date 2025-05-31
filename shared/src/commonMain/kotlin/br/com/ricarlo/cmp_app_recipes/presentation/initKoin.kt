@@ -4,13 +4,14 @@ import br.com.ricarlo.login.di.loginModules
 import br.com.ricarlo.notification.di.notificationModules
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
+import org.koin.dsl.includes
 
-fun initKoin(
-    config: KoinAppDeclaration? = null
-) {
+fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
-        config?.invoke(this)
-        modules(loginModules)
-        modules(notificationModules)
+        includes(config)
+        modules(
+            loginModules,
+            notificationModules
+        )
     }
 }

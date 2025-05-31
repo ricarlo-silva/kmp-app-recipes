@@ -27,8 +27,6 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - uses: ./.github/workflows/google-services.yml
-
       - name: Publish all publications to GitHub Packages repository
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
         env:
