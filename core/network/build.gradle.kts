@@ -28,7 +28,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
-            implementation(libs.bundles.ktor.core)
+            api(libs.bundles.ktor.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlin.logging)
         }
