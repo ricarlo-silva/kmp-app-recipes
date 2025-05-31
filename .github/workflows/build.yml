@@ -19,15 +19,8 @@ jobs:
           distribution: temurin
 
       - name: Decode and Write Google Service Files
-        env:
-          JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
-          if [ -n "$JSON_CONTENT" ] && [ -n "${{ inputs.config-android-path }}" ]; then
-            echo "Creating Android google-services.json at ${{ inputs.config-android-path }}"
-            echo "$JSON_CONTENT" | base64 -di > "${{ inputs.config-android-path }}"
-          else
-            echo "Skipping Android google-services.json creation (secret or path not provided)."
-          fi
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > androidApp/google-services.json
 
       - name: Cache Gradle
         uses: actions/cache@v3
@@ -65,15 +58,8 @@ jobs:
           distribution: temurin
 
       - name: Decode and Write Google Service Files
-        env:
-          PLIST_CONTENT: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
         run: |
-          if [ -n "$PLIST_CONTENT" ] && [ -n "${{ inputs.config-ios-path }}" ]; then
-            echo "Creating iOS GoogleService-Info.plist at ${{ inputs.config-ios-path }}"
-            echo "$PLIST_CONTENT" | base64 -di > "${{ inputs.config-ios-path }}"
-          else
-            echo "Skipping iOS GoogleService-Info.plist creation (secret or path not provided)."
-          fi  
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" | base64 -d > iosApp/iosApp/GoogleService-Info.plist
 
       - name: Cache Gradle
         uses: actions/cache@v3
