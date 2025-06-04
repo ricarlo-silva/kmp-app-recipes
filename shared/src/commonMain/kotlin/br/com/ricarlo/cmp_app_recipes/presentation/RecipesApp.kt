@@ -13,28 +13,26 @@ import br.com.ricarlo.login.presentation.LoginScreen
 
 @Composable
 fun RecipesApp() {
-    MyApplicationTheme {
 
-        val navController = rememberNavController()
-        MyApplicationTheme {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
+    val navController = rememberNavController()
+    MyApplicationTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = "login"
             ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = "login"
-                ) {
-                    composable("home") {
-                        HomeScreen(
-                            navController = navController
-                        )
-                    }
-                    composable("login") {
-                        LoginScreen(
-                            navController = navController
-                        )
-                    }
+                composable("home") {
+                    HomeScreen(
+                        navController = navController
+                    )
+                }
+                composable("login") {
+                    LoginScreen(
+                        navController = navController
+                    )
                 }
             }
         }

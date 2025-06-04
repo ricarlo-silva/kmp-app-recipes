@@ -15,7 +15,7 @@
             android:name=".NotificationReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.ricarlo.notification.NOTIFICATION_CLICK" />
+                <action android:name="@string/action_notification_click" />
             </intent-filter>
         </receiver>
     </application>

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.recipes.convention.publish)
+    alias(libs.plugins.recipes.convention.config)
 }
 
 kotlin {

@@ -17,14 +17,14 @@ internal class ApiNotification(
 ) : IApiNotification {
 
     override suspend fun registerToken(token: String) {
-        httpClient.post("") { // TODO: URL
+        httpClient.post("functions/v1/notification-token") {
             contentType(ContentType.Application.Json)
             setBody(TokenRequest(token))
         }
     }
 
     override suspend fun registerMetric(data: Map<String, Any>) {
-        httpClient.post("") { // TODO: URL
+        httpClient.post("functions/v1/notification-metric") {
             contentType(ContentType.Application.Json)
             setBody(data.toJson())
         }

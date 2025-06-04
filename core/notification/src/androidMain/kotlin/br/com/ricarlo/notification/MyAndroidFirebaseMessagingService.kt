@@ -26,8 +26,8 @@ internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService(), K
     }
 
     private fun showNotification(message: RemoteMessage) {
-        val intent = Intent("com.ricarlo.notification.NOTIFICATION_CLICK").apply {
-//            putExtra("data", message.data.toList().toTypedArray())
+        val intent = Intent(getString(R.string.action_notification_click)).apply {
+            putExtra("data", message.data.toList().toTypedArray())
         }
 
         val channelId = getString(R.string.default_notification_channel_id)
