@@ -12,17 +12,17 @@ class BuildConfigPlugin : Plugin<Project> {
             propsFile.inputStream().use { props.load(it) }
         }
 
-        val generatedDir = "generated/src/${project.name}"
+        val generatedDir = "generated/src/config"
         val outputDir = project.layout.buildDirectory.dir(generatedDir).get().asFile
 
         val baseUrl = props["BASE_URL"]?.toString().orEmpty()
         val apiKey = props["API_KEY"]?.toString().orEmpty()
 
-        val file = outputDir.resolve("config/BuildConfig.kt")
+        val file = outputDir.resolve("br.com.ricarlo.${project.name}/BuildConfig.kt")
         file.parentFile.mkdirs()
         file.writeText(
             """
-                    package config
+                    package br.com.ricarlo.${project.name}
                     
                     object BuildConfig {
                         const val BASE_URL = "$baseUrl"

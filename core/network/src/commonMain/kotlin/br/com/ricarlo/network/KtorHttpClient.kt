@@ -1,6 +1,5 @@
 package br.com.ricarlo.network
 
-import config.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.plugins.HttpTimeout
