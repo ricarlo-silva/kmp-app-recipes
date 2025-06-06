@@ -1,5 +1,6 @@
 package br.com.ricarlo.notification.core
 
+import br.com.ricarlo.common.EventBus
 import br.com.ricarlo.notification.data.remote.IApiNotification
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +22,7 @@ class FcmHandler(
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     val handler = CoroutineExceptionHandler { _, exception ->
-        println("FCM got $exception")
+        println("FCM error $exception")
     }
 
     override fun onNewToken(token: String) {
@@ -39,6 +40,7 @@ class FcmHandler(
 
     override fun onClickMessage(remoteMessage: Map<String, Any>) {
         scope.launch(handler) {
+            EventBus.send(event = remoteMessage)
             apiNotification.registerMetric(remoteMessage.plus(KEY to "open"))
         }
     }

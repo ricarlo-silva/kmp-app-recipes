@@ -7,24 +7,24 @@ import android.content.Context
 import android.content.Intent
 
 fun Context.createPendingIntent(intent: Intent, requestCode: Int = 0): PendingIntent {
-    val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     return PendingIntent.getActivity(
-        this,
+        this.applicationContext,
         requestCode,
         intent,
-        flags
+        flags()
     )
 }
 
 fun Context.createBroadcastPendingIntent(intent: Intent, requestCode: Int = 0): PendingIntent {
-    val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     return PendingIntent.getBroadcast(
-        this,
+        this.applicationContext,
         requestCode,
         intent,
-        flags
+        flags()
     )
 }
+
+private fun flags() = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 
 fun Context.createNotificationChannel(
     id: String,
