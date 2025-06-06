@@ -1,0 +1,49 @@
+package br.com.ricarlo.notification.core
+
+import br.com.ricarlo.common.EventBus
+import br.com.ricarlo.notification.data.remote.IApiNotification
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+
+interface IFcmHandler {
+    fun onNewToken(token: String)
+    fun onMessageReceived(remoteMessage: Map<String, Any>)
+    fun onClickMessage(remoteMessage: Map<String, Any>)
+}
+
+class FcmHandler(
+    private val apiNotification: IApiNotification
+) : IFcmHandler {
+
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    val handler = CoroutineExceptionHandler { _, exception ->
+        println("FCM error $exception")
+    }
+
+    override fun onNewToken(token: String) {
+        println("FCM Token: $token")
+        scope.launch(handler) {
+            apiNotification.registerToken(token)
+        }
+    }
+
+    override fun onMessageReceived(remoteMessage: Map<String, Any>) {
+        scope.launch(handler) {
+            apiNotification.registerMetric(remoteMessage.plus(KEY to "received"))
+        }
+    }
+
+    override fun onClickMessage(remoteMessage: Map<String, Any>) {
+        scope.launch(handler) {
+            EventBus.send(event = remoteMessage)
+            apiNotification.registerMetric(remoteMessage.plus(KEY to "open"))
+        }
+    }
+}
+
+private const val KEY = "event"

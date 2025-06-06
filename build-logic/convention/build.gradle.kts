@@ -23,5 +23,9 @@ gradlePlugin {
             id = "recipes.convention.publish"
             implementationClass = "MavenPublishConventionPlugin"
         }
+        register("buildConfig") {
+            id = "recipes.convention.config"
+            implementationClass = "BuildConfigPlugin"
+        }
     }
 }
