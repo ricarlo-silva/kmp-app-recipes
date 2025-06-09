@@ -11,6 +11,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 private const val KEY = "event"
+private const val EVENT_RECEIVED = "received"
+private const val EVENT_OPEN = "open"
 
 interface IFcmHandler {
     fun onNewToken(token: String)
@@ -37,14 +39,14 @@ class FcmHandler(
 
     override fun onMessageReceived(remoteMessage: Map<String, Any>) {
         scope.launch(handler) {
-            apiNotification.registerMetric(remoteMessage.plus(KEY to "received"))
+            apiNotification.registerMetric(remoteMessage.plus(KEY to EVENT_RECEIVED))
         }
     }
 
     override fun onClickMessage(remoteMessage: Map<String, Any>) {
         scope.launch(handler) {
             EventBus.send(event = remoteMessage)
-            apiNotification.registerMetric(remoteMessage.plus(KEY to "open"))
+            apiNotification.registerMetric(remoteMessage.plus(KEY to EVENT_OPEN))
         }
     }
 }
