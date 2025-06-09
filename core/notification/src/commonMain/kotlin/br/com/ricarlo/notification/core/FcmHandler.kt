@@ -1,6 +1,7 @@
 package br.com.ricarlo.notification.core
 
 import br.com.ricarlo.common.EventBus
+import br.com.ricarlo.network.utils.logger
 import br.com.ricarlo.notification.data.remote.IApiNotification
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -8,6 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+
+private const val KEY = "event"
 
 interface IFcmHandler {
     fun onNewToken(token: String)
@@ -22,11 +25,11 @@ class FcmHandler(
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     val handler = CoroutineExceptionHandler { _, exception ->
-        println("FCM error $exception")
+        logger.error(exception) { "FCM error" }
     }
 
     override fun onNewToken(token: String) {
-        println("FCM Token: $token")
+        logger.debug { "FCM Token: $token" }
         scope.launch(handler) {
             apiNotification.registerToken(token)
         }
@@ -45,5 +48,3 @@ class FcmHandler(
         }
     }
 }
-
-private const val KEY = "event"

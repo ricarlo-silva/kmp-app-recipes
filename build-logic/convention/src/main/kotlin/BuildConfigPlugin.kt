@@ -15,20 +15,19 @@ class BuildConfigPlugin : Plugin<Project> {
         val generatedDir = "generated/src/config"
         val outputDir = project.layout.buildDirectory.dir(generatedDir).get().asFile
 
-        val baseUrl = props["BASE_URL"]?.toString().orEmpty()
-        val apiKey = props["API_KEY"]?.toString().orEmpty()
-
-        val file = outputDir.resolve("br.com.ricarlo.${project.name}/BuildConfig.kt")
+        val packageName = "${project.group}.${project.name}"
+        val file = outputDir.resolve("$packageName/BuildConfig.kt")
         file.parentFile.mkdirs()
         file.writeText(
-            """
-                    package br.com.ricarlo.${project.name}
-                    
-                    object BuildConfig {
-                        const val BASE_URL = "$baseUrl"
-                        const val API_KEY = "$apiKey"
-                    }
-                    """.trimIndent()
+            buildString {
+                appendLine("package $packageName\n")
+                appendLine("internal object BuildConfig {")
+                props.entries.forEach {
+                    val key = it.key.toString().replace(".", "_").uppercase()
+                    appendLine("    const val $key = \"${it.value}\"")
+                }
+                append("}")
+            }
         )
 
         project.plugins.withId("org.jetbrains.kotlin.multiplatform") {

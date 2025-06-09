@@ -76,6 +76,7 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-mu
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.2" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version = "0.17.1" }
 
 #
 recipes-convention-publish = { id = "recipes.convention.publish", version = "unspecified" }

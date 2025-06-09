@@ -13,7 +13,7 @@ class MavenPublishConventionPlugin : Plugin<Project> {
             }
 
             version = rootProject.file("./config/VERSION_NAME").readText().trim()
-            group = "com.ricarlo"
+            group = "br.com.ricarlo"
 
             extensions.getByType(PublishingExtension::class.java).apply {
                 publications.withType(MavenPublication::class.java).all {
