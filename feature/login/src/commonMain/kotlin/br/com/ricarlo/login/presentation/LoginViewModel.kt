@@ -3,6 +3,11 @@ package br.com.ricarlo.login.presentation
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.icerock.moko.permissions.DeniedAlwaysException
+import dev.icerock.moko.permissions.DeniedException
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.notifications.REMOTE_NOTIFICATION
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,12 +16,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-internal class LoginViewModel : ViewModel() {
+internal class LoginViewModel(
+    val permissionsController: PermissionsController
+) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
 
-    private val _action = MutableSharedFlow<Boolean>()
+    private val _action = MutableSharedFlow<String>()
     val action = _action.asSharedFlow()
+
+    init {
+        requestPermission(Permission.REMOTE_NOTIFICATION)
+    }
 
     fun onAction(action: LoginAction) {
         when (action) {
@@ -45,7 +56,26 @@ internal class LoginViewModel : ViewModel() {
             _state.update {
                 it.copy(isLoading = false)
             }
-            _action.emit(true)
+            _action.emit("navigate")
+        }
+    }
+
+    private fun requestPermission(permission: Permission) {
+        viewModelScope.launch {
+            try {
+                permissionsController.getPermissionState(permission)
+                    .also { _action.emit("pre provide $it") }
+
+                permissionsController.providePermission(permission)
+                _action.emit("onSuccess")
+            } catch (deniedAlwaysException: DeniedAlwaysException) {
+                _action.emit("onDeniedAlways: ${deniedAlwaysException.message}")
+            } catch (deniedException: DeniedException) {
+                _action.emit("onDenied: ${deniedException.message}")
+            } finally {
+                permissionsController.getPermissionState(permission)
+                    .also { _action.emit("post provide $it") }
+            }
         }
     }
 }

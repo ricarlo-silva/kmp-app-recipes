@@ -27,11 +27,12 @@ kotlin {
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.messaging.ktx)
             implementation(libs.firebase.analytics.ktx)
-            api(libs.accompanist.permissions)
         }
         commonMain.dependencies {
             implementation(projects.core.common)
             implementation(projects.core.network)
+            api(libs.permissions.compose)
+            api(libs.permissions.notifications)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
