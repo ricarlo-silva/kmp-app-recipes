@@ -5,7 +5,7 @@ import java.util.Properties
 
 class BuildConfigPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        val propsFile = project.rootProject.file("local.properties")
+        val propsFile = project.rootProject.file("secrets.properties")
         val props = Properties()
 
         if (propsFile.exists()) {

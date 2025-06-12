@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.ricarlo.designsystem.MyApplicationTheme
 import br.com.ricarlo.login.presentation.LoginScreen
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RecipesApp() {
@@ -37,4 +38,10 @@ fun RecipesApp() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun AppAndroidPreview() {
+    RecipesApp()
 }

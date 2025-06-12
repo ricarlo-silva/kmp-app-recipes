@@ -4,8 +4,6 @@ import br.com.ricarlo.network.utils.toJson
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 
 interface IApiNotification {
     suspend fun registerToken(token: String)
@@ -18,14 +16,12 @@ internal class ApiNotification(
 
     override suspend fun registerToken(token: String) {
         httpClient.post("functions/v1/notification-token") {
-            contentType(ContentType.Application.Json)
             setBody(TokenRequest(token))
         }
     }
 
     override suspend fun registerMetric(data: Map<String, Any>) {
         httpClient.post("functions/v1/notification-metric") {
-            contentType(ContentType.Application.Json)
             setBody(data.toJson())
         }
     }

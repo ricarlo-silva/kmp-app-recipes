@@ -1,4 +1,4 @@
-package br.com.ricarlo.cmp_app_recipes
+package br.com.ricarlo.common
 
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier

@@ -22,3 +22,4 @@ iosApp/iosApp/GoogleService-Info.plist
 iosApp/Podfile.lock
 
 androidApp/google-services.json
+/secrets.properties

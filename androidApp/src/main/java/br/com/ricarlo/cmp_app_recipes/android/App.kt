@@ -20,7 +20,7 @@ internal class App : Application() {
             )
         }
         initKoin {
-            androidContext(this@App)
+            androidContext(applicationContext)
             if (BuildConfig.DEBUG) androidLogger()
         }
     }

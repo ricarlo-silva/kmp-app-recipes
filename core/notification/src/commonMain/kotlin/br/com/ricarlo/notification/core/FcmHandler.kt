@@ -20,7 +20,7 @@ interface IFcmHandler {
     fun onClickMessage(remoteMessage: Map<String, Any>)
 }
 
-class FcmHandler(
+internal class FcmHandler(
     private val apiNotification: IApiNotification
 ) : IFcmHandler {
 

@@ -28,6 +28,9 @@ jobs:
           path: ~/.gradle/caches
           key: gradle-android-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
+      - name: Generate BuildKonfig
+        run: ./gradlew generateBuildKonfig
+
       - name: Run Unit Tests
         run: ./gradlew allTests
 
@@ -71,6 +74,9 @@ jobs:
 #        run: |
 #          cd iosApp
 #          xcodebuild test -project iosApp.xcodeproj -scheme debug -destination 'platform=iOS Simulator,name=iPhone 15'
+
+      - name: Generate BuildKonfig
+        run: ./gradlew generateBuildKonfig
 
       - name: Build iOS
         run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64

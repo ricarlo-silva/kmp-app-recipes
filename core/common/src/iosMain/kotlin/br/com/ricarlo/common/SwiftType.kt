@@ -1,4 +1,4 @@
-package br.com.ricarlo.cmp_app_recipes
+package br.com.ricarlo.common
 
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ObjCClass
