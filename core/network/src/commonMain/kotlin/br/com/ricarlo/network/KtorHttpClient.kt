@@ -49,9 +49,9 @@ object KtorHttpClient {
             })
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 10000
-            connectTimeoutMillis = 5000
-            socketTimeoutMillis = 15000
+            requestTimeoutMillis = BuildConfig.TIMEOUT.toLong()
+            connectTimeoutMillis = BuildConfig.TIMEOUT.toLong()
+            socketTimeoutMillis = BuildConfig.TIMEOUT.toLong()
         }
         install(Auth) {
             bearer {
