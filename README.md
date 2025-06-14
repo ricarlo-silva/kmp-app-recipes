@@ -33,6 +33,37 @@ cmp-app-recipes/
 └── .github/            # GitHub Actions workflows
 ```
 
+## Module Graph
+
+```mermaid
+%%{
+  init: {
+    'theme': 'neutral'
+  }
+}%%
+
+graph LR
+  subgraph :core
+    :core:designsystem["designsystem"]
+    :core:network["network"]
+  end
+  subgraph :feature
+    :feature:login["login"]
+  end
+  :shared --> :core:designsystem
+  :shared --> :core:network
+  :shared --> :feature:login
+  :androidApp --> :shared
+
+classDef kotlin-multiplatform fill:#C792EA,stroke:#fff,stroke-width:2px,color:#fff;
+classDef android-application fill:#2C4162,stroke:#fff,stroke-width:2px,color:#fff;
+class :shared kotlin-multiplatform
+class :core:designsystem kotlin-multiplatform
+class :core:network kotlin-multiplatform
+class :feature:login kotlin-multiplatform
+class :androidApp android-application
+
+```
 ## ✨ Technologies Used
 
 This project leverages the following powerful technologies:
