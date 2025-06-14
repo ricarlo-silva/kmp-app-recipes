@@ -12,8 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import br.com.ricarlo.designsystem.system
-import br.com.ricarlo.cmp_app_recipes.getPlatform
 import br.com.ricarlo.network.Greeting
 import br.com.ricarlo.network.utils.logError
 import br.com.ricarlo.network.utils.toJson
@@ -27,11 +25,15 @@ fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    HomeContent()
+    HomeContent(
+        modifier = modifier
+    )
 }
 
 @Composable
-internal fun HomeContent() {
+internal fun HomeContent(
+    modifier: Modifier = Modifier
+) {
     var greetingText by remember { mutableStateOf("Loading...") }
     LaunchedEffect(Unit) {
         launch {
@@ -45,11 +47,9 @@ internal fun HomeContent() {
         }
     }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .verticalScroll(rememberScrollState())
     ) {
-        Text("Hello, ${getPlatform().name}!")
-        Text("Hello, ${system()}!")
         Text(greetingText)
     }
 }

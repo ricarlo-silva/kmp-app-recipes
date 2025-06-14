@@ -24,23 +24,37 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = koinViewModel<LoginViewModel>()
+    val factory = rememberPermissionsControllerFactory()
+
+    val viewModel = koinViewModel<LoginViewModel> {
+        parametersOf(factory.createPermissionsController())
+    }
+
+    BindEffect(viewModel.permissionsController)
+
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.action.collect {
-            navController.navigate("home", navOptions {
-                popUpTo("login") {
-                    inclusive = true
-                }
-            })
+            if (it == "navigate") {
+                navController.navigate("home", navOptions {
+                    popUpTo("login") {
+                        inclusive = true
+                    }
+                })
+            } else {
+                println("Action: $it")
+            }
         }
     }
 

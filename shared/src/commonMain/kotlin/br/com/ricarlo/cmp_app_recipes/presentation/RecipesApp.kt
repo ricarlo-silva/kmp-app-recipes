@@ -10,33 +10,38 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.ricarlo.designsystem.MyApplicationTheme
 import br.com.ricarlo.login.presentation.LoginScreen
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RecipesApp() {
-    MyApplicationTheme {
 
-        val navController = rememberNavController()
-        MyApplicationTheme {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
+    val navController = rememberNavController()
+    MyApplicationTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = "login"
             ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = "login"
-                ) {
-                    composable("home") {
-                        HomeScreen(
-                            navController = navController
-                        )
-                    }
-                    composable("login") {
-                        LoginScreen(
-                            navController = navController
-                        )
-                    }
+                composable("home") {
+                    HomeScreen(
+                        navController = navController
+                    )
+                }
+                composable("login") {
+                    LoginScreen(
+                        navController = navController
+                    )
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun AppAndroidPreview() {
+    RecipesApp()
 }
