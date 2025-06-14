@@ -13,8 +13,13 @@ kotlin {
 }
 
 dependencies {
-    compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.plugins.androidApplication.toDep())
+    compileOnly(libs.plugins.kotlinAndroid.toDep())
+    compileOnly(libs.plugins.kotlinMultiplatform.toDep())
+}
+
+fun Provider<PluginDependency>.toDep() = map {
+    "${it.pluginId}:${it.pluginId}.gradle.plugin:${it.version}"
 }
 
 gradlePlugin {

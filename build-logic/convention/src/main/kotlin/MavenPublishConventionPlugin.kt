@@ -4,7 +4,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.internal.extensions.stdlib.capitalized
 
-class MavenPublishConventionPlugin : Plugin<Project> {
+internal class MavenPublishConventionPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         with(project) {

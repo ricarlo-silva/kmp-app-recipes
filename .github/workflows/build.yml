@@ -28,8 +28,11 @@ jobs:
           path: ~/.gradle/caches
           key: gradle-android-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      - name: Generate BuildKonfig
-        run: ./gradlew generateBuildKonfig
+      - name: Create secrets.properties
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > secrets.properties
+          echo "API_KEY=${{ secrets.API_KEY }}" >> secrets.properties
+        working-directory: .
 
       - name: Run Unit Tests
         run: ./gradlew allTests
@@ -75,8 +78,11 @@ jobs:
 #          cd iosApp
 #          xcodebuild test -project iosApp.xcodeproj -scheme debug -destination 'platform=iOS Simulator,name=iPhone 15'
 
-      - name: Generate BuildKonfig
-        run: ./gradlew generateBuildKonfig
+      - name: Create secrets.properties
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > secrets.properties
+          echo "API_KEY=${{ secrets.API_KEY }}" >> secrets.properties
+        working-directory: .
 
       - name: Build iOS
         run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
