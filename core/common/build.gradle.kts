@@ -33,10 +33,10 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.viewmodel)
+            api(libs.koin.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -44,12 +44,8 @@ kotlin {
     }
 }
 
-compose.resources {
-    publicResClass = true
-}
-
 android {
-    namespace = "br.com.ricarlo.designsystem"
+    namespace = "br.com.ricarlo.common"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
