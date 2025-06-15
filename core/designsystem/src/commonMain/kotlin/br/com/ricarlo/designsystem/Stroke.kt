@@ -17,7 +17,7 @@ data class Stroke(
     val extraLarge: Dp = StrokeDefaults.ExtraLarge,
 )
 
-data object StrokeDefaults {
+internal data object StrokeDefaults {
     val Tiny = 0.5.dp
 
     val ExtraSmall = 1.dp

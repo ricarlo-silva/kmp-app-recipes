@@ -18,7 +18,7 @@ data class Spacing(
     val extraLarge: Dp = SpacingDefaults.ExtraLarge,
 )
 
-data object SpacingDefaults {
+internal data object SpacingDefaults {
     val Tiny = 2.dp
 
     val ExtraSmall = 4.dp

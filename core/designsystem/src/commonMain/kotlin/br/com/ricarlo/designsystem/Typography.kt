@@ -13,7 +13,7 @@ import com.ricarlo.designsystem.generated.resources.Res
 import org.jetbrains.compose.resources.Font
 
 @Composable
-fun AppTypography() = Typography().run {
+internal fun AppTypography() = Typography().run {
     val fontFamily = FontFamily(
         Font(Res.font.OpenSans_Bold, FontWeight.Bold),
         Font(Res.font.OpenSans_Light, FontWeight.Light),

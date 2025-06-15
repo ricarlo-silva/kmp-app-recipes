@@ -3,7 +3,7 @@ package br.com.ricarlo.designsystem
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
 
-val Shapes = Shapes(
+internal val Shapes = Shapes(
     extraSmall = RoundedCornerShape(RadiusDefaults.ExtraSmall),
     small = RoundedCornerShape(RadiusDefaults.Small),
     medium = RoundedCornerShape(RadiusDefaults.Medium),

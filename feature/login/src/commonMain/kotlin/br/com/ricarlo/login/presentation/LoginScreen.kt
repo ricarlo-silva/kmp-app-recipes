@@ -1,7 +1,6 @@
 package br.com.ricarlo.login.presentation
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +29,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -81,19 +82,30 @@ fun LoginScreen(
     val viewModel = koinViewModel<LoginViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.action.collect {
-            navController.navigate(it, navOptions {
-//                popUpTo("login") {
-//                    inclusive = true
-//                }
-            })
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(viewModel, navController) {
+        viewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is LoginSideEffect.ShowSnackbar -> {
+                    snackbarHostState.showSnackbar(effect.message)
+                }
+
+                is LoginSideEffect.Navigate -> {
+                    navController.navigate(effect.route, navOptions {
+                        popUpTo("login") {
+                            inclusive = true
+                        }
+                    })
+                }
+            }
         }
     }
 
     LoginContent(
         state = state,
         onAction = viewModel::onAction,
+        snackbarHostState = snackbarHostState,
         modifier = modifier,
     )
 }
@@ -103,6 +115,7 @@ fun LoginScreen(
 fun LoginContent(
     state: LoginState,
     onAction: (LoginAction) -> Unit = { },
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     modifier: Modifier = Modifier,
 ) {
     val isLoginButtonEnabled by remember(state.username, state.password) {
@@ -125,6 +138,7 @@ fun LoginContent(
                 ),
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
         Column(
             modifier = modifier
