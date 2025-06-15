@@ -2,16 +2,18 @@ package br.com.ricarlo.login.presentation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -20,14 +22,18 @@ import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -37,32 +43,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
 import br.com.ricarlo.designsystem.spacing
-import com.ricarlo.designsystem.generated.resources.visibility_24
 import com.ricarlo.designsystem.generated.resources.visibility_off
+import com.ricarlo.designsystem.generated.resources.visibility_on
 import com.ricarlo.login.generated.resources.Res
 import com.ricarlo.login.generated.resources.access_title
 import com.ricarlo.login.generated.resources.create_account
 import com.ricarlo.login.generated.resources.forgot_password
 import com.ricarlo.login.generated.resources.google_login
+import com.ricarlo.login.generated.resources.hide_password
 import com.ricarlo.login.generated.resources.login
 import com.ricarlo.login.generated.resources.no_account
 import com.ricarlo.login.generated.resources.other_access
 import com.ricarlo.login.generated.resources.password
+import com.ricarlo.login.generated.resources.show_password
 import com.ricarlo.login.generated.resources.type_email
 import com.ricarlo.login.generated.resources.type_password
 import com.ricarlo.login.generated.resources.username
-import com.ricarlo.designsystem.generated.resources.Res as DesignSystemRes
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import com.ricarlo.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun LoginScreen(
@@ -89,67 +99,62 @@ fun LoginScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginContent(
     state: LoginState,
     onAction: (LoginAction) -> Unit = { },
     modifier: Modifier = Modifier,
 ) {
-    var username by remember { mutableStateOf(state.username) }
-    var password by remember { mutableStateOf(state.password) }
-
-    LaunchedEffect(state.username, state.password) {
-        username = state.username
-        password = state.password
-    }
-
-    val isLoginButtonEnabled by remember {
+    val isLoginButtonEnabled by remember(state.username, state.password) {
         derivedStateOf {
-            username.isNotBlank() && password.isNotBlank()
+            state.username.isNotBlank() && state.password.isNotBlank()
         }
     }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(vertical = MaterialTheme.spacing.extraLarge),
-        ) {
-            Text(
-                text = stringResource(Res.string.access_title),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimary,
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(Res.string.access_title),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
             )
-        }
-
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
-
+        },
+    ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.spacing.large)
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(rememberScrollState())
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .padding(horizontal = MaterialTheme.spacing.large),
         ) {
             Text(
                 text = stringResource(Res.string.username),
                 style = MaterialTheme.typography.bodyMedium,
             )
             OutlinedTextField(
-                value = username,
+                value = state.username,
                 onValueChange = {
-                    username = it
                     onAction(LoginAction.UsernameChanged(it))
                 },
                 singleLine = true,
                 enabled = !state.isLoading,
                 placeholder = { Text(stringResource(Res.string.type_email)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
             )
@@ -162,20 +167,24 @@ fun LoginContent(
             )
 
             OutlinedTextField(
-                value = password,
+                value = state.password,
                 onValueChange = {
-                    password = it
                     onAction(LoginAction.PasswordChanged(it))
                 },
                 placeholder = { Text(stringResource(Res.string.type_password)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val image = if (passwordVisible) DesignSystemRes.drawable.visibility_24 else DesignSystemRes.drawable.visibility_off
-                    val description = if (passwordVisible) "Hide password" else "Show password"
+                    val image =
+                        if (passwordVisible) DesignSystemRes.drawable.visibility_on else DesignSystemRes.drawable.visibility_off
+                    val description =
+                        if (passwordVisible) Res.string.hide_password else Res.string.show_password
 
-                    IconButton(onClick = {passwordVisible = !passwordVisible}){
-                        Icon(painter = painterResource(image), description)
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(painter = painterResource(image), stringResource(description))
                     }
                 },
                 singleLine = true,
@@ -204,11 +213,11 @@ fun LoginContent(
                     .height(50.dp),
                 shape = MaterialTheme.shapes.extraLarge,
             ) {
-                Text(stringResource(Res.string.login))
-                Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-                if (state.isLoading) {
+                if (!state.isLoading) {
+                    Text(stringResource(Res.string.login))
+                } else {
                     CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
                         color = MaterialTheme.colorScheme.onPrimary,
                         strokeWidth = 2.dp
                     )
@@ -217,26 +226,9 @@ fun LoginContent(
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
-                )
-                Text(
-                    text = stringResource(Res.string.other_access),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
-                    style = MaterialTheme.typography.bodySmall
-                )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
-                )
-            }
+            OrDividerWithText(
+                text = stringResource(Res.string.other_access),
+            )
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
@@ -265,26 +257,9 @@ fun LoginContent(
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
-                )
-                Text(
-                    text = stringResource(Res.string.no_account),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
-                    style = MaterialTheme.typography.bodySmall
-                )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
-                )
-            }
+            OrDividerWithText(
+                text = stringResource(Res.string.no_account),
+            )
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
@@ -307,5 +282,30 @@ fun LoginContent(
                 Text(text = stringResource(Res.string.create_account))
             }
         }
+    }
+}
+
+@Composable
+fun OrDividerWithText(text: String, modifier: Modifier = Modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+        )
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small) // Added padding for text
+        )
+        HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+        )
     }
 }

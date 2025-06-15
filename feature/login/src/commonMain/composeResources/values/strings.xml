@@ -10,4 +10,6 @@
     <string name="access_title">Acesse sua conta</string>
     <string name="type_email">Digite seu e-mail</string>
     <string name="type_password">Digite sua senha</string>
+    <string name="hide_password">Ocultar senha</string>
+    <string name="show_password">Mostrar senha</string>
 </resources>
