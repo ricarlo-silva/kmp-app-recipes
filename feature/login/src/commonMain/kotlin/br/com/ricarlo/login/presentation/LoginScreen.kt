@@ -38,9 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -53,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
 import br.com.ricarlo.designsystem.spacing
+import br.com.ricarlo.designsystem.stroke
 import com.ricarlo.designsystem.generated.resources.visibility_off
 import com.ricarlo.designsystem.generated.resources.visibility_on
 import com.ricarlo.login.generated.resources.Res
@@ -107,11 +106,8 @@ fun LoginContent(
     modifier: Modifier = Modifier,
 ) {
     val isLoginButtonEnabled by remember(state.username, state.password) {
-        derivedStateOf {
-            state.username.isNotBlank() && state.password.isNotBlank()
-        }
+        derivedStateOf { state.isLoginButtonEnabled }
     }
-    var passwordVisible by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -134,7 +130,6 @@ fun LoginContent(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
                 .windowInsetsPadding(WindowInsets.safeDrawing)
                 .padding(horizontal = MaterialTheme.spacing.large),
@@ -150,7 +145,7 @@ fun LoginContent(
                 },
                 singleLine = true,
                 enabled = !state.isLoading,
-                placeholder = { Text(stringResource(Res.string.type_email)) },
+                placeholder = { Text(text = stringResource(Res.string.type_email)) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
@@ -171,20 +166,33 @@ fun LoginContent(
                 onValueChange = {
                     onAction(LoginAction.PasswordChanged(it))
                 },
-                placeholder = { Text(stringResource(Res.string.type_password)) },
+                placeholder = { Text(text = stringResource(Res.string.type_password)) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (state.passwordVisible) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
                 trailingIcon = {
-                    val image =
-                        if (passwordVisible) DesignSystemRes.drawable.visibility_on else DesignSystemRes.drawable.visibility_off
+                    val image = if (state.passwordVisible) {
+                        DesignSystemRes.drawable.visibility_on
+                    } else {
+                        DesignSystemRes.drawable.visibility_off
+                    }
                     val description =
-                        if (passwordVisible) Res.string.hide_password else Res.string.show_password
+                        if (state.passwordVisible) Res.string.hide_password else Res.string.show_password
 
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(painter = painterResource(image), stringResource(description))
+                    IconButton(
+                        onClick = { onAction(LoginAction.TogglePasswordVisibility) }
+                    ) {
+                        Icon(
+                            painter = painterResource(image),
+                            contentDescription = stringResource(description),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 },
                 singleLine = true,
@@ -214,19 +222,19 @@ fun LoginContent(
                 shape = MaterialTheme.shapes.extraLarge,
             ) {
                 if (!state.isLoading) {
-                    Text(stringResource(Res.string.login))
+                    Text(text = stringResource(Res.string.login))
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(ButtonDefaults.IconSize),
                         color = MaterialTheme.colorScheme.onPrimary,
-                        strokeWidth = 2.dp
+                        strokeWidth = MaterialTheme.stroke.small
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-            OrDividerWithText(
+            DividerWithText(
                 text = stringResource(Res.string.other_access),
             )
 
@@ -242,7 +250,7 @@ fun LoginContent(
                 shape = MaterialTheme.shapes.small,
                 enabled = !state.isLoading,
                 border = BorderStroke(
-                    width = 1.dp,
+                    width = MaterialTheme.stroke.extraSmall,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
                 ),
             ) {
@@ -257,7 +265,7 @@ fun LoginContent(
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-            OrDividerWithText(
+            DividerWithText(
                 text = stringResource(Res.string.no_account),
             )
 
@@ -277,7 +285,10 @@ fun LoginContent(
                         alpha = 0.1f
                     )
                 ),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                border = BorderStroke(
+                    width = MaterialTheme.stroke.extraSmall,
+                    color = MaterialTheme.colorScheme.primary
+                ),
             ) {
                 Text(text = stringResource(Res.string.create_account))
             }
@@ -286,25 +297,25 @@ fun LoginContent(
 }
 
 @Composable
-fun OrDividerWithText(text: String, modifier: Modifier = Modifier) {
+fun DividerWithText(text: String, modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
     ) {
         HorizontalDivider(
             modifier = Modifier.weight(1f),
-            thickness = 1.dp,
+            thickness = MaterialTheme.stroke.extraSmall,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
         )
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small) // Added padding for text
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small)
         )
         HorizontalDivider(
             modifier = Modifier.weight(1f),
-            thickness = 1.dp,
+            thickness = MaterialTheme.stroke.extraSmall,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
         )
     }

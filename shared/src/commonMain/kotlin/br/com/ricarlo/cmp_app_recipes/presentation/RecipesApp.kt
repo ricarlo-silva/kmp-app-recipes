@@ -26,8 +26,8 @@ fun RecipesApp() {
             NavHost(
                 navController = navController,
                 startDestination = "login",
-                enterTransition = { slideInHorizontally() },
-                exitTransition = { slideOutHorizontally() },
+                enterTransition = { slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = { fullWidth -> -fullWidth }) },
             ) {
                 composable("home") {
                     HomeScreen(

@@ -26,6 +26,7 @@ internal class LoginViewModel : ViewModel() {
             LoginAction.ForgotPasswordClicked -> onForgotPasswordClick()
             LoginAction.GoogleLoginClicked -> onGoogleLoginClick()
             LoginAction.SignupClicked -> onSignupClick()
+            LoginAction.TogglePasswordVisibility -> togglePasswordVisibility()
         }
     }
 
@@ -38,6 +39,12 @@ internal class LoginViewModel : ViewModel() {
     private fun onPasswordChange(password: String) {
         _state.update {
             it.copy(password = password)
+        }
+    }
+
+    private fun togglePasswordVisibility() {
+        _state.update {
+            it.copy(passwordVisible = !it.passwordVisible)
         }
     }
 
@@ -79,7 +86,11 @@ data class LoginState(
     val username: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-)
+    val passwordVisible: Boolean = false,
+) {
+    val isLoginButtonEnabled: Boolean
+        get() = username.isNotBlank() && password.isNotBlank()
+}
 
 sealed class LoginAction {
     data class UsernameChanged(val username: String) : LoginAction()
@@ -88,4 +99,5 @@ sealed class LoginAction {
     data object SignupClicked : LoginAction()
     data object ForgotPasswordClicked : LoginAction()
     data object GoogleLoginClicked : LoginAction()
+    data object TogglePasswordVisibility : LoginAction()
 }
