@@ -15,14 +15,17 @@ internal class LoginViewModel : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
 
-    private val _action = MutableSharedFlow<Boolean>()
+    private val _action = MutableSharedFlow<String>()
     val action = _action.asSharedFlow()
 
     fun onAction(action: LoginAction) {
         when (action) {
             is LoginAction.UsernameChanged -> onUsernameChange(action.username)
             is LoginAction.PasswordChanged -> onPasswordChange(action.password)
-            is LoginAction.LoginClicked -> onLoginClick()
+            LoginAction.LoginClicked -> onLoginClick()
+            LoginAction.ForgotPasswordClicked -> onForgotPasswordClick()
+            LoginAction.GoogleLoginClicked -> onGoogleLoginClick()
+            LoginAction.SignupClicked -> onSignupClick()
         }
     }
 
@@ -41,11 +44,32 @@ internal class LoginViewModel : ViewModel() {
     private fun onLoginClick() {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            delay(10000)
+            delay(1000)
             _state.update {
                 it.copy(isLoading = false)
             }
-            _action.emit(true)
+            _action.emit("home")
+        }
+    }
+
+    private fun onSignupClick() {
+        viewModelScope.launch {
+            // TODO: Navigate to signup screen
+            _action.emit("home")
+        }
+    }
+
+    private fun onForgotPasswordClick() {
+        viewModelScope.launch {
+            // TODO: Navigate to forgot password screen
+            _action.emit("home")
+        }
+    }
+
+    private fun onGoogleLoginClick() {
+        viewModelScope.launch {
+            // TODO: Handle Google login
+            _action.emit("home")
         }
     }
 }
@@ -61,4 +85,7 @@ sealed class LoginAction {
     data class UsernameChanged(val username: String) : LoginAction()
     data class PasswordChanged(val password: String) : LoginAction()
     data object LoginClicked : LoginAction()
+    data object SignupClicked : LoginAction()
+    data object ForgotPasswordClicked : LoginAction()
+    data object GoogleLoginClicked : LoginAction()
 }

@@ -44,6 +44,10 @@ kotlin {
     }
 }
 
+compose.resources {
+    publicResClass = true
+}
+
 android {
     namespace = "br.com.ricarlo.designsystem"
     compileSdk = libs.versions.compileSdk.get().toInt()
