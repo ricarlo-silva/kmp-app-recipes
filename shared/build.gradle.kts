@@ -33,6 +33,7 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+            export(projects.core.common)
         }
     }
 

@@ -33,6 +33,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
+
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.viewmodel)

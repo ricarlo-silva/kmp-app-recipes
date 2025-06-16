@@ -92,7 +92,7 @@ data class LoginState(
     val passwordVisible: Boolean = false,
 ) {
     fun withUsername(username: String) = copy(username = username)
-    fun withPassword(username: String) = copy(password = username)
+    fun withPassword(password: String) = copy(password = password)
     fun loading(isLoading: Boolean) = copy(isLoading = isLoading)
     fun toggledPasswordVisibility() = copy(passwordVisible = !passwordVisible)
 
