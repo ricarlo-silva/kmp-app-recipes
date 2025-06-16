@@ -1,5 +1,7 @@
 package br.com.ricarlo.cmp_app_recipes.presentation
 
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,7 +25,9 @@ fun RecipesApp() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = "login"
+                startDestination = "login",
+                enterTransition = { slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = { fullWidth -> -fullWidth }) },
             ) {
                 composable("home") {
                     HomeScreen(
