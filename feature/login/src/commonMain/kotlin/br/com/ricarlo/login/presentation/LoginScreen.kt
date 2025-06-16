@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -51,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
+import br.com.ricarlo.designsystem.generated.resources.google
 import br.com.ricarlo.designsystem.generated.resources.visibility_off
 import br.com.ricarlo.designsystem.generated.resources.visibility_on
 import br.com.ricarlo.designsystem.spacing
@@ -279,7 +278,7 @@ internal fun LoginContent(
                 ),
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.MailOutline,
+                    painter = painterResource(DesignSystemRes.drawable.google),
                     contentDescription = null,
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
