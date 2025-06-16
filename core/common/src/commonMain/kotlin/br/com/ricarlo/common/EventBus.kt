@@ -13,8 +13,4 @@ object EventBus {
     suspend fun send(event: Any?) {
         _events.emit(event)
     }
-
-    fun trySend(event: Any?) {
-        _events.tryEmit(event)
-    }
 }

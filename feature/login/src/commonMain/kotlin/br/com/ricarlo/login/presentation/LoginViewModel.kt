@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class LoginViewModel(
-    val permissionsController: PermissionsController
+    val permissionsController: PermissionsController,
     private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
@@ -100,14 +100,10 @@ internal class LoginViewModel(
                     .also { _sideEffect.emit(LoginSideEffect.ShowSnackbar("pre provide $it")) }
 
                 permissionsController.providePermission(permission)
-                _sideEffect.emit(LoginSideEffect.ShowSnackbar("onSuccess"))
             } catch (deniedAlwaysException: DeniedAlwaysException) {
                 _sideEffect.emit(LoginSideEffect.ShowSnackbar("onDeniedAlways: ${deniedAlwaysException.message}"))
             } catch (deniedException: DeniedException) {
                 _sideEffect.emit(LoginSideEffect.ShowSnackbar("onDenied: ${deniedException.message}"))
-            } finally {
-                permissionsController.getPermissionState(permission)
-                    .also { _sideEffect.emit(LoginSideEffect.ShowSnackbar("post provide $it")) }
             }
         }
     }

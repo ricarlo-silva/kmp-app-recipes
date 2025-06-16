@@ -4,12 +4,12 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.ricarlo.designsystem.generated.resources.OpenSans_Bold
-import com.ricarlo.designsystem.generated.resources.OpenSans_Light
-import com.ricarlo.designsystem.generated.resources.OpenSans_Medium
-import com.ricarlo.designsystem.generated.resources.OpenSans_Regular
-import com.ricarlo.designsystem.generated.resources.OpenSans_SemiBold
-import com.ricarlo.designsystem.generated.resources.Res
+import br.com.ricarlo.designsystem.generated.resources.OpenSans_Bold
+import br.com.ricarlo.designsystem.generated.resources.OpenSans_Light
+import br.com.ricarlo.designsystem.generated.resources.OpenSans_Medium
+import br.com.ricarlo.designsystem.generated.resources.OpenSans_Regular
+import br.com.ricarlo.designsystem.generated.resources.OpenSans_SemiBold
+import br.com.ricarlo.designsystem.generated.resources.Res
 import org.jetbrains.compose.resources.Font
 
 @Composable

@@ -51,31 +51,31 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
+import br.com.ricarlo.designsystem.generated.resources.visibility_off
+import br.com.ricarlo.designsystem.generated.resources.visibility_on
 import br.com.ricarlo.designsystem.spacing
 import br.com.ricarlo.designsystem.stroke
-import com.ricarlo.designsystem.generated.resources.visibility_off
-import com.ricarlo.designsystem.generated.resources.visibility_on
-import com.ricarlo.login.generated.resources.Res
-import com.ricarlo.login.generated.resources.access_title
-import com.ricarlo.login.generated.resources.create_account
-import com.ricarlo.login.generated.resources.forgot_password
-import com.ricarlo.login.generated.resources.google_login
-import com.ricarlo.login.generated.resources.hide_password
-import com.ricarlo.login.generated.resources.login
-import com.ricarlo.login.generated.resources.no_account
-import com.ricarlo.login.generated.resources.other_access
-import com.ricarlo.login.generated.resources.password
-import com.ricarlo.login.generated.resources.show_password
-import com.ricarlo.login.generated.resources.type_email
-import com.ricarlo.login.generated.resources.type_password
-import com.ricarlo.login.generated.resources.username
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
+import br.com.ricarlo.login.generated.resources.Res
+import br.com.ricarlo.login.generated.resources.access_title
+import br.com.ricarlo.login.generated.resources.create_account
+import br.com.ricarlo.login.generated.resources.forgot_password
+import br.com.ricarlo.login.generated.resources.google_login
+import br.com.ricarlo.login.generated.resources.hide_password
+import br.com.ricarlo.login.generated.resources.login
+import br.com.ricarlo.login.generated.resources.no_account
+import br.com.ricarlo.login.generated.resources.other_access
+import br.com.ricarlo.login.generated.resources.password
+import br.com.ricarlo.login.generated.resources.show_password
+import br.com.ricarlo.login.generated.resources.type_email
+import br.com.ricarlo.login.generated.resources.type_password
+import br.com.ricarlo.login.generated.resources.username
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import com.ricarlo.designsystem.generated.resources.Res as DesignSystemRes
+import br.com.ricarlo.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun LoginScreen(
