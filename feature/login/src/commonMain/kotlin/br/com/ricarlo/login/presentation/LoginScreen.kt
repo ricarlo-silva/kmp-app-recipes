@@ -112,7 +112,7 @@ fun LoginScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginContent(
+internal fun LoginContent(
     state: LoginState,
     onAction: (LoginAction) -> Unit = { },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -311,7 +311,7 @@ fun LoginContent(
 }
 
 @Composable
-fun DividerWithText(text: String, modifier: Modifier = Modifier) {
+internal fun DividerWithText(text: String, modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()

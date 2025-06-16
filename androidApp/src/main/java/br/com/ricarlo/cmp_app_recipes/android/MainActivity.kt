@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.ricarlo.cmp_app_recipes.presentation.RecipesApp
 
-class MainActivity : ComponentActivity() {
+internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,6 +20,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 @Preview
-fun AppPreview() {
+internal fun AppPreview() {
     RecipesApp()
 }
