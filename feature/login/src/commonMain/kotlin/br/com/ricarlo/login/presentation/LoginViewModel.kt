@@ -4,6 +4,11 @@ import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.ricarlo.login.domain.repository.AuthRepository
+import dev.icerock.moko.permissions.DeniedAlwaysException
+import dev.icerock.moko.permissions.DeniedException
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.notifications.REMOTE_NOTIFICATION
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -12,6 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class LoginViewModel(
+    val permissionsController: PermissionsController,
     private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
@@ -19,6 +25,10 @@ internal class LoginViewModel(
 
     private val _sideEffect = MutableSharedFlow<LoginSideEffect>()
     val sideEffect = _sideEffect.asSharedFlow()
+
+    init {
+        requestPermission(Permission.REMOTE_NOTIFICATION)
+    }
 
     fun onAction(action: LoginAction) {
         when (action) {
@@ -80,6 +90,21 @@ internal class LoginViewModel(
         viewModelScope.launch {
             // TODO: Handle Google login
             _sideEffect.emit(LoginSideEffect.ShowSnackbar("Handle Google login"))
+        }
+    }
+
+    private fun requestPermission(permission: Permission) {
+        viewModelScope.launch {
+            try {
+                permissionsController.getPermissionState(permission)
+                    .also { _sideEffect.emit(LoginSideEffect.ShowSnackbar("pre provide $it")) }
+
+                permissionsController.providePermission(permission)
+            } catch (deniedAlwaysException: DeniedAlwaysException) {
+                _sideEffect.emit(LoginSideEffect.ShowSnackbar("onDeniedAlways: ${deniedAlwaysException.message}"))
+            } catch (deniedException: DeniedException) {
+                _sideEffect.emit(LoginSideEffect.ShowSnackbar("onDenied: ${deniedException.message}"))
+            }
         }
     }
 }
