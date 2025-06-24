@@ -73,10 +73,16 @@ Get started with the project by following these steps:
 
 5.  **Run the Android App:**
     * Select the `androidApp` configuration from the run configuration dropdown menu.
+    * Create `secrets.properties` file in the project root.
+        * It should contain:
+            * `BASE_URL=your_base_api_url_here`
+            * `API_KEY=your_api_key_here`
+    * Create `google-services.json` file in the `androidApp` directory.
     * Click the "Run" button (green play icon).
 
 6.  **Run the iOS App:**
     * Open the `iosApp/iosApp.xcodeproj` file in Xcode.
+    * Create `GoogleService-Info.plist` file in the `iosApp/iosApp` directory.
     * Choose a simulator or connect a physical iOS device as the target.
     * Click the "Run" button (play icon) in Xcode.
 

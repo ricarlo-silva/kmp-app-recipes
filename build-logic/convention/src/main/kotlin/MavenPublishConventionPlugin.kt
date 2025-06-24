@@ -4,7 +4,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.internal.extensions.stdlib.capitalized
 
-class MavenPublishConventionPlugin : Plugin<Project> {
+internal class MavenPublishConventionPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         with(project) {
@@ -13,7 +13,7 @@ class MavenPublishConventionPlugin : Plugin<Project> {
             }
 
             version = rootProject.file("./config/VERSION_NAME").readText().trim()
-            group = "com.ricarlo"
+            group = "br.com.ricarlo"
 
             extensions.getByType(PublishingExtension::class.java).apply {
                 publications.withType(MavenPublication::class.java).all {

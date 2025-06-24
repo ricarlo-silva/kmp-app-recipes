@@ -8,11 +8,15 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -21,6 +25,13 @@ object KtorHttpClient {
         plugins: Array<HttpClientPlugin<Any, Any>> = emptyArray(),
         tokenManager: TokenManager = TokenManager()
     ) = HttpClient {
+        defaultRequest {
+            host = BuildConfig.BASE_URL
+            url {
+                protocol = URLProtocol.HTTPS
+            }
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+        }
         install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL
@@ -38,9 +49,9 @@ object KtorHttpClient {
             })
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 10000
-            connectTimeoutMillis = 5000
-            socketTimeoutMillis = 15000
+            requestTimeoutMillis = BuildConfig.TIMEOUT.toLong()
+            connectTimeoutMillis = BuildConfig.TIMEOUT.toLong()
+            socketTimeoutMillis = BuildConfig.TIMEOUT.toLong()
         }
         install(Auth) {
             bearer {

@@ -44,6 +44,7 @@ kotlin {
 
             implementation(projects.core.common)
             implementation(projects.core.designsystem)
+            implementation(projects.core.notification)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
