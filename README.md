@@ -71,16 +71,17 @@ Get started with the project by following these steps:
 4.  **Sync Project with Gradle Files:**
     * Once the project is open, Android Studio will prompt you to synchronize with the Gradle files. Click "Sync Now" or the Gradle sync icon (elephant with a green arrow) in the toolbar.
 
-5.  **Run the Android App:**
+5.  **Create `secrets.properties` file in the project root:**
+    * It should contain:
+        * `BASE_URL=your_base_api_url_here`
+        * `API_KEY=your_api_key_here`
+
+6.  **Run the Android App:**
     * Select the `androidApp` configuration from the run configuration dropdown menu.
-    * Create `secrets.properties` file in the project root.
-        * It should contain:
-            * `BASE_URL=your_base_api_url_here`
-            * `API_KEY=your_api_key_here`
     * Create `google-services.json` file in the `androidApp` directory.
     * Click the "Run" button (green play icon).
 
-6.  **Run the iOS App:**
+7.  **Run the iOS App:**
     * Open the `iosApp/iosApp.xcodeproj` file in Xcode.
     * Create `GoogleService-Info.plist` file in the `iosApp/iosApp` directory.
     * Choose a simulator or connect a physical iOS device as the target.
