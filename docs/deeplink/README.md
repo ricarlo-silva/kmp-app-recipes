@@ -22,7 +22,7 @@ This guide provides commands to test deep links on both Android and iOS platform
 
 ### 2. Verified Links (Universal Links on iOS / Android App Links)
 
-* **Description:** Use standard `http` or `https://` URLs associated with a website domain that you
+* **Description:** Use standard `http` or `https` URLs associated with a website domain that you
   own and have configured to link to your app.
 * **Pros:**
     * More secure, as they require domain verification.

@@ -27,11 +27,8 @@ fun RecipesApp() {
 
     val navController = rememberNavController()
     LaunchedEffect(Unit) {
-        EventBus.events.filterIsInstance<NavUri>().collect { event ->
-            navController.navigate("home") {
-                popUpTo(navController.graph.startDestinationId)
-                launchSingleTop = true
-            }
+        EventBus.events.filterIsInstance<NavUri>().collect { uri ->
+            navController.navigate(uri.toString())
         }
     }
     MyApplicationTheme {
@@ -47,9 +44,9 @@ fun RecipesApp() {
             ) {
                 composable(
                     route = "home",
-                    deepLinks = listOf(navDeepLink {
-                        uriPattern = "myapp://${BuildConfig.APPLICATION_ID}/home"
-                    })
+                    deepLinks = listOf(
+                        navDeepLink { uriPattern = "https://${BuildConfig.APPLICATION_ID}/home" }
+                    )
                 ) {
                     HomeScreen(
                         navController = navController
@@ -62,9 +59,11 @@ fun RecipesApp() {
                 }
                 composable(
                     route = "details/{id}",
-                    deepLinks = listOf(navDeepLink {
-                        uriPattern = "myapp://${BuildConfig.APPLICATION_ID}/details/{id}"
-                    })
+                    deepLinks = listOf(
+                        navDeepLink {
+                            uriPattern = "https://${BuildConfig.APPLICATION_ID}/details/{id}"
+                        }
+                    )
                 ) { backStackEntry ->
                     val id = backStackEntry.arguments?.read { getStringOrNull("id") }
                     Text("ID $id")
