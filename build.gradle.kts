@@ -9,4 +9,10 @@ plugins {
     alias(libs.plugins.kotlin.serialization).apply(false)
     alias(libs.plugins.kotlin.parcelize).apply(false)
     alias(libs.plugins.google.services).apply(false)
+    alias(libs.plugins.modulegraph).apply(true)
+}
+
+moduleGraphConfig {
+    heading.set("## Module Graph")
+    setStyleByModuleType.set(true)
 }
