@@ -1,6 +1,6 @@
 package br.com.ricarlo.notification.core
 
-import br.com.ricarlo.common.EventBus
+import br.com.ricarlo.common.DeepLinkHandler
 import br.com.ricarlo.network.utils.logger
 import br.com.ricarlo.notification.data.remote.IApiNotification
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -45,7 +45,7 @@ internal class FcmHandler(
 
     override fun onClickMessage(remoteMessage: Map<String, Any>) {
         scope.launch(handler) {
-            EventBus.send(event = remoteMessage)
+            DeepLinkHandler().processDeepLink(remoteMessage)
             apiNotification.registerMetric(remoteMessage.plus(KEY to EVENT_OPEN))
         }
     }

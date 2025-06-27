@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.recipes.convention.publish)
+    alias(libs.plugins.recipes.convention.config)
 }
 
 kotlin {
