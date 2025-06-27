@@ -108,6 +108,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // With swizzling disabled you must set the APNs token here.
         // Messaging.messaging().apnsToken = deviceToken
     }
+
+    // Captura deeplinks quando o app é aberto por uma URLs
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        // Passa a URL para a camada compartilhada
+        handleDeepLink(url: url)
+        return true
+    }
+
+    // Captura deeplinks para apps em foreground/background (opcional)
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
+            // Para Universal Links
+            handleDeepLink(url: url)
+            return true
+        }
+        return false
+    }
+
+    private func handleDeepLink(url: URL) {
+        DeepLinkHandler().processDeepLink(deepLink: url.absoluteString)
+    }
 }
 
 // [START ios_10_message_handling]
