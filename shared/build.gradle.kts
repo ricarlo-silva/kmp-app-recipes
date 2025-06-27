@@ -33,6 +33,8 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+            export(projects.core.common)
+            export(projects.core.notification)
         }
     }
 
@@ -52,10 +54,13 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             api(projects.core.designsystem)
             api(projects.core.network)
+            api(projects.core.common)
+            api(projects.core.notification)
             api(projects.feature.login)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.koin.test)
         }
     }
 }

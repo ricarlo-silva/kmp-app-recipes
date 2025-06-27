@@ -1,5 +1,7 @@
 package br.com.ricarlo.cmp_app_recipes
 
 import androidx.compose.ui.window.ComposeUIViewController
+import br.com.ricarlo.cmp_app_recipes.presentation.RecipesApp
 
-fun MainViewController() = ComposeUIViewController { App() }
+@Suppress("FunctionName", "unused")
+fun MainViewController() = ComposeUIViewController { RecipesApp() }

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.recipes.convention.publish)
+    alias(libs.plugins.recipes.convention.config)
 }
 
 kotlin {
@@ -28,9 +29,10 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
-            implementation(libs.bundles.ktor.core)
+            api(libs.bundles.ktor.core)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlin.logging)
+            api(libs.kotlin.logging)
+            implementation(libs.koin.core)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
