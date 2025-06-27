@@ -44,23 +44,34 @@ cmp-app-recipes/
 
 graph LR
   subgraph :core
+    :core:common["common"]
     :core:designsystem["designsystem"]
+    :core:notification["notification"]
     :core:network["network"]
   end
   subgraph :feature
     :feature:login["login"]
   end
+  :feature:login --> :core:common
+  :feature:login --> :core:designsystem
+  :feature:login --> :core:notification
   :shared --> :core:designsystem
   :shared --> :core:network
+  :shared --> :core:common
+  :shared --> :core:notification
   :shared --> :feature:login
   :androidApp --> :shared
+  :core:notification --> :core:common
+  :core:notification --> :core:network
 
 classDef kotlin-multiplatform fill:#C792EA,stroke:#fff,stroke-width:2px,color:#fff;
 classDef android-application fill:#2C4162,stroke:#fff,stroke-width:2px,color:#fff;
-class :shared kotlin-multiplatform
-class :core:designsystem kotlin-multiplatform
-class :core:network kotlin-multiplatform
 class :feature:login kotlin-multiplatform
+class :core:common kotlin-multiplatform
+class :core:designsystem kotlin-multiplatform
+class :core:notification kotlin-multiplatform
+class :shared kotlin-multiplatform
+class :core:network kotlin-multiplatform
 class :androidApp android-application
 
 ```
