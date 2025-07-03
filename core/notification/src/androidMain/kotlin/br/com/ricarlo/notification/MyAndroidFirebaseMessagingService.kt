@@ -8,8 +8,12 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import androidx.core.net.toUri
 
-internal const val MESSAGE_KEY = "message"
+const val MESSAGE_KEY = "message"
+internal const val NOTIFICATION_TITLE_KEY = "title"
+internal const val NOTIFICATION_BODY_KEY = "body"
+internal const val NOTIFICATION_URI_KEY = "uri"
 
 internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
 
@@ -28,19 +32,21 @@ internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService(), K
     }
 
     private fun showNotification(message: RemoteMessage) {
-        val intent = Intent(this.applicationContext, NotificationReceiver::class.java).apply {
-            action = getString(R.string.action_notification_click)
-            putExtra(MESSAGE_KEY, message)
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            message.data[NOTIFICATION_URI_KEY].orEmpty().toUri()
+        ).apply {
+            putExtra(MESSAGE_KEY, HashMap(message.data))
         }
 
         val channelId = getString(R.string.default_notification_channel_id)
         val notificationBuilder = NotificationCompat.Builder(this.applicationContext, channelId)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(message.notification?.title.orEmpty())
-            .setContentText(message.notification?.body.orEmpty())
+            .setContentTitle(message.data[NOTIFICATION_TITLE_KEY].orEmpty())
+            .setContentText(message.data[NOTIFICATION_BODY_KEY].orEmpty())
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(createBroadcastPendingIntent(intent))
+            .setContentIntent(createPendingIntent(intent))
 
         createNotificationChannel(
             id = channelId,

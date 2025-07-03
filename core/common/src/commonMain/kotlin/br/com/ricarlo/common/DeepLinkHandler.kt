@@ -4,27 +4,26 @@ import androidx.navigation.NavUri
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-private const val DEEPLINK_PAYLOAD_KEY = "deepLink"
-private const val DEFAULT_DEEPLINK_URL = "home"
+internal const val NOTIFICATION_URI_KEY = "uri"
 
 interface IDeepLinkHandler {
-    fun processDeepLink(deepLink: String?)
-    fun processDeepLink(remoteMessage: Map<String, Any>)
+    fun processDeepLink(uri: String?)
+    fun processMessage(remoteMessage: Map<String, Any>)
 }
 
 internal class DeepLinkHandler(
     private val scope: CoroutineScope
 ) : IDeepLinkHandler {
 
-    override fun processDeepLink(deepLink: String?) {
-        if (deepLink.isNullOrEmpty()) return
+    override fun processDeepLink(uri: String?) {
+        if (uri.isNullOrEmpty()) return
         scope.launch {
-            EventBus.send(NavUri(deepLink))
+            EventBus.send(event = NavUri(uri))
         }
     }
-    override fun processDeepLink(remoteMessage: Map<String, Any>) {
+    override fun processMessage(remoteMessage: Map<String, Any>) {
         if (remoteMessage.isEmpty()) return
-        val deepLink = remoteMessage[DEEPLINK_PAYLOAD_KEY] as? String
-        processDeepLink(deepLink ?: DEFAULT_DEEPLINK_URL)
+        val uri = remoteMessage[NOTIFICATION_URI_KEY] as? String
+        processDeepLink(uri = uri)
     }
 }

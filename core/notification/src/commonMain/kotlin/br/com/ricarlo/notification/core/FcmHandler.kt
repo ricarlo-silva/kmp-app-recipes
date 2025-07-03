@@ -28,22 +28,24 @@ internal class FcmHandler(
     }
 
     override fun onNewToken(token: String) {
-        logger.debug { "FCM Token: $token" }
         scope.launch(handler) {
-            apiNotification.registerToken(token)
+            logger.debug { "FCM Token: $token" }
+            apiNotification.registerToken(token = token)
         }
     }
 
     override fun onMessageReceived(remoteMessage: Map<String, Any>) {
         scope.launch(handler) {
-            apiNotification.registerMetric(remoteMessage.plus(KEY to EVENT_RECEIVED))
+            if (remoteMessage.isEmpty()) return@launch
+            apiNotification.registerMetric(data = remoteMessage.plus(KEY to EVENT_RECEIVED))
         }
     }
 
     override fun onClickMessage(remoteMessage: Map<String, Any>) {
         scope.launch(handler) {
-            deepLinkHandler.processDeepLink(remoteMessage)
-            apiNotification.registerMetric(remoteMessage.plus(KEY to EVENT_OPEN))
+            if (remoteMessage.isEmpty()) return@launch
+            deepLinkHandler.processMessage(remoteMessage = remoteMessage)
+            apiNotification.registerMetric(data = remoteMessage.plus(KEY to EVENT_OPEN))
         }
     }
 }
