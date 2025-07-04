@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.IntentCompat
+import com.google.firebase.messaging.RemoteMessage
 
 fun Context.createPendingIntent(intent: Intent, requestCode: Int = 0): PendingIntent {
     return PendingIntent.getActivity(
@@ -62,4 +64,11 @@ fun Context.areNotificationsEnabled(channelId: String? = null): Boolean {
             }
         }
     }
+}
+
+fun Intent.getMessageData(): Map<String, Any> {
+    val message = IntentCompat.getParcelableExtra(
+        this, MESSAGE_KEY, RemoteMessage::class.java
+    )
+    return message?.data.orEmpty()
 }

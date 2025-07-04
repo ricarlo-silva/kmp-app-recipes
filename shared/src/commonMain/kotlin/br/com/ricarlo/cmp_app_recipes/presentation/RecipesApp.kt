@@ -10,14 +10,26 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
+import androidx.savedstate.read
 import br.com.ricarlo.designsystem.MyApplicationTheme
 import br.com.ricarlo.login.presentation.LoginScreen
+import br.com.ricarlo.network.utils.logger
+import br.com.ricarlo.shared.BuildConfig
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RecipesApp() {
 
     val navController = rememberNavController()
+
+//    LaunchedEffect(Unit) {
+//        EventBus.events.filterIsInstance<NavUri>().collect { uri ->
+//            if (navController.graph.hasDeepLink(uri)) {
+//                navController.navigate(uri)
+//            }
+//        }
+//    }
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -29,12 +41,27 @@ fun RecipesApp() {
                 enterTransition = { slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }) },
                 exitTransition = { slideOutHorizontally(targetOffsetX = { fullWidth -> -fullWidth }) },
             ) {
-                composable("home") {
+                composable(
+                    route = "home",
+                    deepLinks = listOf(
+                        navDeepLink { uriPattern = "https://${BuildConfig.APPLICATION_ID}/home" }
+                    )
+                ) {
                     HomeScreen(
                         navController = navController
                     )
                 }
-                composable("login") {
+                composable(
+                    route = "login",
+                    deepLinks = listOf(
+                        navDeepLink {
+                            uriPattern = "https://${BuildConfig.APPLICATION_ID}/login/{id}"
+                        }
+                    )
+                ) { backStackEntry ->
+                    val id = backStackEntry.arguments?.read { getStringOrNull("id") }
+                    logger.debug { "ID: $id" }
+
                     LoginScreen(
                         navController = navController
                     )

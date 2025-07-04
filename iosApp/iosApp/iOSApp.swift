@@ -7,7 +7,8 @@ import shared
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     lazy var fcmHandler: IFcmHandler = injectLazy()()
-    
+    lazy var deepLinkHandler: IDeepLinkHandler = injectLazy()()
+
     let gcmMessageIDKey = "gcm.message_id"
 
     func application(
@@ -107,6 +108,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // With swizzling disabled you must set the APNs token here.
         // Messaging.messaging().apnsToken = deviceToken
+    }
+
+    // Handles deep links when the app is launched by a URL
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        handleDeepLink(url: url)
+        return true
+    }
+
+    // Handles deep links while the app is in the foreground or background (optional)
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
+            handleDeepLink(url: url)
+            return true
+        }
+        return false
+    }
+
+    private func handleDeepLink(url: URL) {
+        deepLinkHandler.processDeepLink(uri: url.absoluteString)
     }
 }
 
