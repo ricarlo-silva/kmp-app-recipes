@@ -7,10 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.IntentCompat
 import br.com.ricarlo.cmp_app_recipes.presentation.RecipesApp
-import br.com.ricarlo.notification.MESSAGE_KEY
 import br.com.ricarlo.notification.core.IFcmHandler
+import br.com.ricarlo.notification.getMessageData
 import org.koin.android.ext.android.inject
 
 internal class MainActivity : ComponentActivity() {
@@ -34,16 +33,7 @@ internal class MainActivity : ComponentActivity() {
         if (intent.action == Intent.ACTION_MAIN) {
             return
         }
-
-        val message = IntentCompat.getSerializableExtra(
-            intent, MESSAGE_KEY, HashMap::class.java
-        )
-
-        if (message is HashMap<*, *>) {
-            @Suppress("UNCHECKED_CAST")
-            val typedMessage = message as HashMap<String, Any>
-            fcmHandler.onClickMessage(remoteMessage = typedMessage)
-        }
+        fcmHandler.onClickMessage(remoteMessage = intent.getMessageData())
     }
 }
 

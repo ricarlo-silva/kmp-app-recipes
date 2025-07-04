@@ -10,7 +10,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import androidx.core.net.toUri
 
-const val MESSAGE_KEY = "message"
+internal const val MESSAGE_KEY = "message"
 internal const val NOTIFICATION_TITLE_KEY = "title"
 internal const val NOTIFICATION_BODY_KEY = "body"
 internal const val NOTIFICATION_URI_KEY = "uri"
@@ -36,7 +36,7 @@ internal class MyAndroidFirebaseMessagingService : FirebaseMessagingService(), K
             Intent.ACTION_VIEW,
             message.data[NOTIFICATION_URI_KEY].orEmpty().toUri()
         ).apply {
-            putExtra(MESSAGE_KEY, HashMap(message.data))
+            putExtra(MESSAGE_KEY, message)
         }
 
         val channelId = getString(R.string.default_notification_channel_id)
